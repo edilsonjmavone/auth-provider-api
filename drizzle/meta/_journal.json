@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1753692300712,
+      "tag": "0000_useful_payback",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1754434228520,
+      "tag": "0001_wandering_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1754435308093,
+      "tag": "0002_yummy_havok",
+      "breakpoints": true
+    }
+  ]
+}

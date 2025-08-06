@@ -1,0 +1,1376 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "55f76319-c987-444b-83ff-2d3bb0ee1f8f",
+  "prevId": "55906417-3a59-423e-8041-dc290efffcba",
+  "tables": {
+    "Aula": {
+      "name": "Aula",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "hora_inicio": {
+          "name": "hora_inicio",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hora_fim": {
+          "name": "hora_fim",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "id_turma": {
+          "name": "id_turma",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_sala": {
+          "name": "id_sala",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_disponibilidade": {
+          "name": "id_disponibilidade",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_periodoLectivo": {
+          "name": "id_periodoLectivo",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_disponibilidade": {
+          "name": "id_disponibilidade",
+          "columns": [
+            "id_disponibilidade"
+          ],
+          "isUnique": false
+        },
+        "id_periodoLectivo": {
+          "name": "id_periodoLectivo",
+          "columns": [
+            "id_periodoLectivo"
+          ],
+          "isUnique": false
+        },
+        "id_sala": {
+          "name": "id_sala",
+          "columns": [
+            "id_sala"
+          ],
+          "isUnique": false
+        },
+        "id_turma": {
+          "name": "id_turma",
+          "columns": [
+            "id_turma"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Aula_id_turma_Turma_id_fk": {
+          "name": "Aula_id_turma_Turma_id_fk",
+          "tableFrom": "Aula",
+          "tableTo": "Turma",
+          "columnsFrom": [
+            "id_turma"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Aula_id_sala_Sala_id_fk": {
+          "name": "Aula_id_sala_Sala_id_fk",
+          "tableFrom": "Aula",
+          "tableTo": "Sala",
+          "columnsFrom": [
+            "id_sala"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Aula_id_disponibilidade_Disponibilidade_id_fk": {
+          "name": "Aula_id_disponibilidade_Disponibilidade_id_fk",
+          "tableFrom": "Aula",
+          "tableTo": "Disponibilidade",
+          "columnsFrom": [
+            "id_disponibilidade"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Aula_id_periodoLectivo_Periodo_Lectivo_id_fk": {
+          "name": "Aula_id_periodoLectivo_Periodo_Lectivo_id_fk",
+          "tableFrom": "Aula",
+          "tableTo": "Periodo_Lectivo",
+          "columnsFrom": [
+            "id_periodoLectivo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Aula_id": {
+          "name": "Aula_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Aula_Dia": {
+      "name": "Aula_Dia",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_aula": {
+          "name": "id_aula",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_dia": {
+          "name": "id_dia",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_aula": {
+          "name": "id_aula",
+          "columns": [
+            "id_aula"
+          ],
+          "isUnique": false
+        },
+        "id_dia": {
+          "name": "id_dia",
+          "columns": [
+            "id_dia"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Aula_Dia_id_aula_Aula_id_fk": {
+          "name": "Aula_Dia_id_aula_Aula_id_fk",
+          "tableFrom": "Aula_Dia",
+          "tableTo": "Aula",
+          "columnsFrom": [
+            "id_aula"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Aula_Dia_id_dia_Dia_id_fk": {
+          "name": "Aula_Dia_id_dia_Dia_id_fk",
+          "tableFrom": "Aula_Dia",
+          "tableTo": "Dia",
+          "columnsFrom": [
+            "id_dia"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Aula_Dia_id": {
+          "name": "Aula_Dia_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Curso": {
+      "name": "Curso",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Curso_id": {
+          "name": "Curso_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Curso_CV": {
+      "name": "Curso_CV",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_curso": {
+          "name": "id_curso",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_cv": {
+          "name": "id_cv",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_curso": {
+          "name": "id_curso",
+          "columns": [
+            "id_curso"
+          ],
+          "isUnique": false
+        },
+        "id_cv": {
+          "name": "id_cv",
+          "columns": [
+            "id_cv"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Curso_CV_id_curso_Curso_id_fk": {
+          "name": "Curso_CV_id_curso_Curso_id_fk",
+          "tableFrom": "Curso_CV",
+          "tableTo": "Curso",
+          "columnsFrom": [
+            "id_curso"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Curso_CV_id_cv_CV_id_fk": {
+          "name": "Curso_CV_id_cv_CV_id_fk",
+          "tableFrom": "Curso_CV",
+          "tableTo": "CV",
+          "columnsFrom": [
+            "id_cv"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Curso_CV_id": {
+          "name": "Curso_CV_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "CV": {
+      "name": "CV",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "CV_id": {
+          "name": "CV_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "CV_Modulo": {
+      "name": "CV_Modulo",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_cv": {
+          "name": "id_cv",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_modulo": {
+          "name": "id_modulo",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_cv": {
+          "name": "id_cv",
+          "columns": [
+            "id_cv"
+          ],
+          "isUnique": false
+        },
+        "id_modulo": {
+          "name": "id_modulo",
+          "columns": [
+            "id_modulo"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "CV_Modulo_id_cv_CV_id_fk": {
+          "name": "CV_Modulo_id_cv_CV_id_fk",
+          "tableFrom": "CV_Modulo",
+          "tableTo": "CV",
+          "columnsFrom": [
+            "id_cv"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "CV_Modulo_id_modulo_Modulo_id_fk": {
+          "name": "CV_Modulo_id_modulo_Modulo_id_fk",
+          "tableFrom": "CV_Modulo",
+          "tableTo": "Modulo",
+          "columnsFrom": [
+            "id_modulo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "CV_Modulo_id": {
+          "name": "CV_Modulo_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Departamento": {
+      "name": "Departamento",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Departamento_id": {
+          "name": "Departamento_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Dia": {
+      "name": "Dia",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "data": {
+          "name": "data",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Dia_id": {
+          "name": "Dia_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Disponibilidade": {
+      "name": "Disponibilidade",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "data": {
+          "name": "data",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hora_inicio": {
+          "name": "hora_inicio",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hora_fim": {
+          "name": "hora_fim",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "id_formador": {
+          "name": "id_formador",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "id_departamento": {
+          "name": "id_departamento",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_departamento": {
+          "name": "id_departamento",
+          "columns": [
+            "id_departamento"
+          ],
+          "isUnique": false
+        },
+        "id_formador": {
+          "name": "id_formador",
+          "columns": [
+            "id_formador"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Disponibilidade_id_formador_Formador_id_fk": {
+          "name": "Disponibilidade_id_formador_Formador_id_fk",
+          "tableFrom": "Disponibilidade",
+          "tableTo": "Formador",
+          "columnsFrom": [
+            "id_formador"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Disponibilidade_id_departamento_Departamento_id_fk": {
+          "name": "Disponibilidade_id_departamento_Departamento_id_fk",
+          "tableFrom": "Disponibilidade",
+          "tableTo": "Departamento",
+          "columnsFrom": [
+            "id_departamento"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Disponibilidade_id": {
+          "name": "Disponibilidade_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Formador": {
+      "name": "Formador",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "especialidade": {
+          "name": "especialidade",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_usuario": {
+          "name": "id_usuario",
+          "columns": [
+            "id_usuario"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Formador_id_usuario_Usuario_id_fk": {
+          "name": "Formador_id_usuario_Usuario_id_fk",
+          "tableFrom": "Formador",
+          "tableTo": "Usuario",
+          "columnsFrom": [
+            "id_usuario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Formador_id": {
+          "name": "Formador_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Log": {
+      "name": "Log",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "acao": {
+          "name": "acao",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "entidade_afetada": {
+          "name": "entidade_afetada",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "detalhe": {
+          "name": "detalhe",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "data_hora": {
+          "name": "data_hora",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        }
+      },
+      "indexes": {
+        "id_usuario": {
+          "name": "id_usuario",
+          "columns": [
+            "id_usuario"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Log_id_usuario_Usuario_id_fk": {
+          "name": "Log_id_usuario_Usuario_id_fk",
+          "tableFrom": "Log",
+          "tableTo": "Usuario",
+          "columnsFrom": [
+            "id_usuario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Log_id": {
+          "name": "Log_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Modulo": {
+      "name": "Modulo",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_curso": {
+          "name": "id_curso",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "carga_horaria": {
+          "name": "carga_horaria",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "credito": {
+          "name": "credito",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "enum('vocacional','generico')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_curso": {
+          "name": "id_curso",
+          "columns": [
+            "id_curso"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Modulo_id_curso_Curso_id_fk": {
+          "name": "Modulo_id_curso_Curso_id_fk",
+          "tableFrom": "Modulo",
+          "tableTo": "Curso",
+          "columnsFrom": [
+            "id_curso"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Modulo_id": {
+          "name": "Modulo_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Perfil": {
+      "name": "Perfil",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Perfil_id": {
+          "name": "Perfil_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Periodo_Lectivo": {
+      "name": "Periodo_Lectivo",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_modulo": {
+          "name": "id_modulo",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_turma": {
+          "name": "id_turma",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "data_inicio": {
+          "name": "data_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "data_fim": {
+          "name": "data_fim",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_modulo": {
+          "name": "id_modulo",
+          "columns": [
+            "id_modulo"
+          ],
+          "isUnique": false
+        },
+        "id_turma": {
+          "name": "id_turma",
+          "columns": [
+            "id_turma"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Periodo_Lectivo_id_modulo_Modulo_id_fk": {
+          "name": "Periodo_Lectivo_id_modulo_Modulo_id_fk",
+          "tableFrom": "Periodo_Lectivo",
+          "tableTo": "Modulo",
+          "columnsFrom": [
+            "id_modulo"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Periodo_Lectivo_id_turma_Turma_id_fk": {
+          "name": "Periodo_Lectivo_id_turma_Turma_id_fk",
+          "tableFrom": "Periodo_Lectivo",
+          "tableTo": "Turma",
+          "columnsFrom": [
+            "id_turma"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Periodo_Lectivo_id": {
+          "name": "Periodo_Lectivo_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Sala": {
+      "name": "Sala",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "enum('lab_rede','lab_info','lab_elec','comum')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Sala_id": {
+          "name": "Sala_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Sessao": {
+      "name": "Sessao",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "expira_em": {
+          "name": "expira_em",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "encerrado_em": {
+          "name": "encerrado_em",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_usuario": {
+          "name": "id_usuario",
+          "columns": [
+            "id_usuario"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Sessao_id_usuario_Usuario_id_fk": {
+          "name": "Sessao_id_usuario_Usuario_id_fk",
+          "tableFrom": "Sessao",
+          "tableTo": "Usuario",
+          "columnsFrom": [
+            "id_usuario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Sessao_id": {
+          "name": "Sessao_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Turma": {
+      "name": "Turma",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_CursoCV": {
+          "name": "id_CursoCV",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_CursoCV": {
+          "name": "id_CursoCV",
+          "columns": [
+            "id_CursoCV"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Turma_id_CursoCV_Curso_CV_id_fk": {
+          "name": "Turma_id_CursoCV_Curso_CV_id_fk",
+          "tableFrom": "Turma",
+          "tableTo": "Curso_CV",
+          "columnsFrom": [
+            "id_CursoCV"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Turma_id": {
+          "name": "Turma_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Usuario": {
+      "name": "Usuario",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "estado": {
+          "name": "estado",
+          "type": "enum('activo','inactivo')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'activo'"
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Usuario_id": {
+          "name": "Usuario_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "email": {
+          "name": "email",
+          "columns": [
+            "email"
+          ]
+        },
+        "username": {
+          "name": "username",
+          "columns": [
+            "username"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "Usuario_Perfil": {
+      "name": "Usuario_Perfil",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_perfil": {
+          "name": "id_perfil",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_perfil": {
+          "name": "id_perfil",
+          "columns": [
+            "id_perfil"
+          ],
+          "isUnique": false
+        },
+        "id_usuario": {
+          "name": "id_usuario",
+          "columns": [
+            "id_usuario"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Usuario_Perfil_id_usuario_Usuario_id_fk": {
+          "name": "Usuario_Perfil_id_usuario_Usuario_id_fk",
+          "tableFrom": "Usuario_Perfil",
+          "tableTo": "Usuario",
+          "columnsFrom": [
+            "id_usuario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Usuario_Perfil_id_perfil_Perfil_id_fk": {
+          "name": "Usuario_Perfil_id_perfil_Perfil_id_fk",
+          "tableFrom": "Usuario_Perfil",
+          "tableTo": "Perfil",
+          "columnsFrom": [
+            "id_perfil"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Usuario_Perfil_id": {
+          "name": "Usuario_Perfil_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}
