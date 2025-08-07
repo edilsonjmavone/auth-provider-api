@@ -1,7 +1,7 @@
 import { Router } from "express"
 import db from "./../db";
 import { formador, sessao, turma, usuario } from "../../drizzle/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, or } from "drizzle-orm";
 import { compareHash, genPawHash } from "../utils/pwdUtil";
 import { getRefreshToken, getToken, verifyRefresh } from "../utils/authUtils";
 import { verify } from "../utils/authUtils";
@@ -51,7 +51,6 @@ routes.post("/login", async (req, res) => {
             d.setHours(d.getHours() + 5)
             return d;
         }
-
         const tokens = {
             auth: getToken({
                 email: userExists.email,
@@ -64,8 +63,6 @@ routes.post("/login", async (req, res) => {
                 name: userExists.nome,
             })
         }
-
-
         res.cookie("AuthToken", tokens.auth, {
             expires: seila(),
             httpOnly: true
@@ -82,7 +79,6 @@ routes.post("/login", async (req, res) => {
             idUsuario: userExists.id,
             userAgent: req.headers["user-agent"]
         })
-
         res.json({ message: "success" }).status(200)
         console.log("feito")
     } catch (error) {
@@ -97,7 +93,14 @@ routes.post("/add", async (req, res) => {
         if (!email || !pwd) {
             throw Error("missing_data")
         }
-        // chechk if user
+        // chechk if user exist
+        const userExists = await db.select({ email: usuario.email, }).from(usuario).where(
+            or(eq(usuario.email, email), eq(usuario.username, username))
+        ).limit(1)
+
+        if (userExists.length > 0) {
+            throw Error("duplicate_cred")
+        }
         await db.transaction(async (tx) => {
             const user = await db.insert(usuario).values({
                 email,
@@ -163,5 +166,8 @@ routes.get("/logout", verifyRefresh, async (req, res) => {
     }
 })
 
+// vamos assumir que ja tens tudo feito como dever ser
+// npm install - done
+// credenciais da db estao feitas - 
 
 export default routes

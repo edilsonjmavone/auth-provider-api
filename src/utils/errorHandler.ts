@@ -12,6 +12,11 @@ export function handleError(err: Error | any, req: Request, res: Response, next?
         return res.status(401).json({ msg: "Invalid credentials" })
     }
 
+    if (message.includes("duplicate_cred")) {
+        return res.status(401).json({ msg: "The data already exist" })
+    }
+
+
     if (message.includes("missing_data")) {
         return res.status(400).json({ msg: "Missing required data" })
     }
