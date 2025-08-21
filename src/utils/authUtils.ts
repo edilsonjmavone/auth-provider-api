@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 const secretKey = process.env.SECRET_KEY! || "94bewm93hfosbr8r23qd";
 const secretRefreshKey = process.env.SECRET_REFRESH_KEY! || "eregvvb34g3b2q2r23qd";
 
-type jwtPayloadType = {
-    id: string | number;
+export type jwtPayloadType = {
+    id: number;
     email: string;
     name: string;
     sessID?: string | number
@@ -17,7 +17,11 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
     try {
         if (AuthToken) {
             const verified = jwt.verify(AuthToken, secretKey);
-            res.locals.tokenData = { userId: (<jwtPayloadType>verified).id, };
+            res.locals.tokenData = {
+                id: (<jwtPayloadType>verified).id,
+                email: (<jwtPayloadType>verified).email,
+                name: (<jwtPayloadType>verified).name
+            };
             next();
         } else {
             return res
@@ -41,7 +45,11 @@ export const verifyRefresh = (
     try {
         if (RefreshToken) {
             const verified = jwt.verify(RefreshToken, secretRefreshKey);
-            res.locals.refreshTokenData = { userId: (<jwtPayloadType>verified).id };
+            res.locals.refreshTokenData = {
+                id: (<jwtPayloadType>verified).id,
+                email: (<jwtPayloadType>verified).email,
+                name: (<jwtPayloadType>verified).name
+            };
             next();
         } else {
             return res.status(400).json({ error: { message: "Forbiden" } });
@@ -60,7 +68,7 @@ export const getRefreshTokenData = (token: string) => {
 
 // reaturns the auth token
 export const getToken = (payload: jwtPayloadType) => {
-    const token = jwt.sign(payload, secretKey, { expiresIn: "5h" });
+    const token = jwt.sign(payload, secretKey, { expiresIn: "24h" });
     return token;
 };
 

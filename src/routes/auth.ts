@@ -1,9 +1,9 @@
 import { Router } from "express"
 import db from "./../db";
-import { formador, sessao, turma, usuario } from "../../drizzle/schema";
-import { eq, and, or } from "drizzle-orm";
+import { formador, sessao, turma, usuario, perfil, usuarioPerfil } from "../../drizzle/schema";
+import { eq, and, or, sql } from "drizzle-orm";
 import { compareHash, genPawHash } from "../utils/pwdUtil";
-import { getRefreshToken, getToken, verifyRefresh } from "../utils/authUtils";
+import { getRefreshToken, getToken, jwtPayloadType, verifyRefresh } from "../utils/authUtils";
 import { verify } from "../utils/authUtils";
 import { handleError } from "../utils/errorHandler";
 
@@ -11,14 +11,21 @@ import { handleError } from "../utils/errorHandler";
 export const routes = Router()
 
 routes.get("/me", verify, async (req, res) => {
-    const id = res.locals.tokenData.userId;
+    const { id }: jwtPayloadType = res.locals.tokenData;
+    console.log(id)
     try {
         const user = await db.select({
             id: usuario.id,
             email: usuario.email,
             userName: usuario.username,
             nome: usuario.nome,
-        }).from(usuario).where(and(eq(usuario.id, id), eq(usuario.estado, "activo")))
+            role: perfil.nome,  // fetch the user's profile name
+        })
+            .from(usuario)
+            .innerJoin(usuarioPerfil, eq(usuarioPerfil.idUsuario, usuario.id))
+            .innerJoin(perfil, eq(perfil.id, usuarioPerfil.idPerfil))
+            .where(and(eq(usuario.id, id), eq(usuario.estado, "activo")))
+            .limit(1);
 
         res.json(user[0]).status(200)
     } catch (error) {
@@ -43,12 +50,17 @@ routes.post("/login", async (req, res) => {
             .where(and(eq(usuario.email, email), eq(usuario.estado, "activo")))
 
         if (!(user.length > 0)) throw Error("invalid_cred")
-        const userExists = user[0]
-        compareHash(pwd, userExists.pwdHash)
+            
+            const userExists = user[0]
 
+        if (!compareHash(pwd, userExists.pwdHash)) throw Error("invalid_cred")
+            
+        // creating a session
+
+        //check if there is an existing session
         function seila() {
             const d = new Date()
-            d.setHours(d.getHours() + 5)
+            d.setHours(d.getHours() + 24)
             return d;
         }
         const tokens = {
@@ -77,13 +89,14 @@ routes.post("/login", async (req, res) => {
             accessToken: tokens.auth,
             refreshToken: tokens.refresh,
             idUsuario: userExists.id,
-            userAgent: req.headers["user-agent"]
+            userAgent: req.headers["user-agent"],
+            expiraEm: sql`DATE_ADD(NOW(), INTERVAL 24 HOUR)`
         })
+
         res.json({ message: "success" }).status(200)
         console.log("feito")
     } catch (error) {
-        console.log(error)
-        return res.status(404).json({ msg: "invalid credentials" });
+        handleError(error, req, res)
     }
 })
 
@@ -108,9 +121,10 @@ routes.post("/add", async (req, res) => {
                 username,
                 passwordHash: genPawHash(pwd)
             })
-            console.log(user[0].insertId)
+            return
         })
-        res.status(201)
+        res.json({ message: "success" }).status(201)
+        console.log("done")
     } catch (error) {
         handleError(error, req, res)
     }
@@ -118,9 +132,10 @@ routes.post("/add", async (req, res) => {
 
 routes.get("/refresh", verifyRefresh, async (req, res) => {
     try {
+        const decodedData: jwtPayloadType = res.locals.refreshTokenData
         const userdData = await db
             .select({ id: usuario.id, name: usuario.nome, email: usuario.email, })
-            .from(usuario).where(and(eq(usuario.estado, "activo"), eq(usuario.id, res.locals.userId)))
+            .from(usuario).where(and(eq(usuario.estado, "activo"), eq(usuario.id, decodedData.id))).limit(1)
 
         if (!(userdData.length > 0)) throw Error("invalid_cred")
         const userExists = userdData[0]
@@ -132,7 +147,7 @@ routes.get("/refresh", verifyRefresh, async (req, res) => {
         })
         function seila() {
             const d = new Date()
-            d.setHours(d.getHours() + 5)
+            d.setHours(d.getHours() + 24)
             return d;
         }
         res.cookie("AuthToken", auth, {
@@ -154,7 +169,7 @@ routes.get("/refresh", verifyRefresh, async (req, res) => {
 routes.get("/logout", verifyRefresh, async (req, res) => {
     try {
         await db.update(sessao)
-            .set({ encerradoEm: Date.now().toLocaleString() })
+            .set({ encerradoEm: sql`NOW()` })
             .where(eq(sessao.idUsuario, res.locals.refreshTokenData.userId))
 
         res.clearCookie("AuthToken")
