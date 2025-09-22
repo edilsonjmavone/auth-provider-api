@@ -11,6 +11,7 @@ import { handleError } from "../utils/errorHandler";
 export const routes = Router()
 
 // rotas relacionadas com auth
+// hello victor
 
 
 routes.get("/me", verify, async (req, res) => {
