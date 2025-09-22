@@ -10,6 +10,9 @@ import { handleError } from "../utils/errorHandler";
 
 export const routes = Router()
 
+// rotas relacionadas com auth
+
+
 routes.get("/me", verify, async (req, res) => {
     const { id }: jwtPayloadType = res.locals.tokenData;
     console.log(id)
@@ -19,7 +22,8 @@ routes.get("/me", verify, async (req, res) => {
             email: usuario.email,
             userName: usuario.username,
             nome: usuario.nome,
-            role: perfil.nome,  // fetch the user's profile name
+            role: perfil.nome, 
+            profileDesc: perfil.descricao // fetch the user's profile name
         })
             .from(usuario)
             .innerJoin(usuarioPerfil, eq(usuarioPerfil.idUsuario, usuario.id))
@@ -52,7 +56,8 @@ routes.post("/login", async (req, res) => {
         if (!(user.length > 0)) throw Error("invalid_cred")
             
             const userExists = user[0]
-
+        
+        console.log("the pwd:",pwd)
         if (!compareHash(pwd, userExists.pwdHash)) throw Error("invalid_cred")
             
         // creating a session

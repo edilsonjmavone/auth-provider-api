@@ -1,15 +1,7 @@
 import { relations } from "drizzle-orm/relations";
-import { turma, aula, sala, disponibilidade, periodoLectivo, aulaDia, dia, cv, cvModulo, modulo, usuario, credencial, curso, cursoCv, formador, departamento, log, usuarioPerfil, perfil } from "./schema";
+import { disponibilidade, aula, periodoLectivo, sala, turma, aulaDia, dia, cv, cvModulo, modulo, curso, cursoCv, departamento, formador, usuario, log, sessao, perfil, usuarioPerfil, pessoa, bilheteDeIdentidade, nuit, passaporte } from "./schema";
 
 export const aulaRelations = relations(aula, ({one, many}) => ({
-	turma: one(turma, {
-		fields: [aula.idTurma],
-		references: [turma.id]
-	}),
-	sala: one(sala, {
-		fields: [aula.idSala],
-		references: [sala.id]
-	}),
 	disponibilidade: one(disponibilidade, {
 		fields: [aula.idDisponibilidade],
 		references: [disponibilidade.id]
@@ -18,31 +10,26 @@ export const aulaRelations = relations(aula, ({one, many}) => ({
 		fields: [aula.idPeriodoLectivo],
 		references: [periodoLectivo.id]
 	}),
-	aulaDias: many(aulaDia),
-}));
-
-export const turmaRelations = relations(turma, ({one, many}) => ({
-	aulas: many(aula),
-	periodoLectivos: many(periodoLectivo),
-	cursoCv: one(cursoCv, {
-		fields: [turma.idCursoCv],
-		references: [cursoCv.id]
+	sala: one(sala, {
+		fields: [aula.idSala],
+		references: [sala.id]
 	}),
-}));
-
-export const salaRelations = relations(sala, ({many}) => ({
-	aulas: many(aula),
+	turma: one(turma, {
+		fields: [aula.idTurma],
+		references: [turma.id]
+	}),
+	aulaDias: many(aulaDia),
 }));
 
 export const disponibilidadeRelations = relations(disponibilidade, ({one, many}) => ({
 	aulas: many(aula),
-	formador: one(formador, {
-		fields: [disponibilidade.idFormador],
-		references: [formador.id]
-	}),
 	departamento: one(departamento, {
 		fields: [disponibilidade.idDepartamento],
 		references: [departamento.id]
+	}),
+	formador: one(formador, {
+		fields: [disponibilidade.idFormador],
+		references: [formador.id]
 	}),
 }));
 
@@ -55,6 +42,19 @@ export const periodoLectivoRelations = relations(periodoLectivo, ({one, many}) =
 	turma: one(turma, {
 		fields: [periodoLectivo.idTurma],
 		references: [turma.id]
+	}),
+}));
+
+export const salaRelations = relations(sala, ({many}) => ({
+	aulas: many(aula),
+}));
+
+export const turmaRelations = relations(turma, ({one, many}) => ({
+	aulas: many(aula),
+	periodoLectivos: many(periodoLectivo),
+	cursoCv: one(cursoCv, {
+		fields: [turma.idCursoCv],
+		references: [cursoCv.id]
 	}),
 }));
 
@@ -98,20 +98,6 @@ export const moduloRelations = relations(modulo, ({one, many}) => ({
 	periodoLectivos: many(periodoLectivo),
 }));
 
-export const credencialRelations = relations(credencial, ({one}) => ({
-	usuario: one(usuario, {
-		fields: [credencial.idUsuario],
-		references: [usuario.id]
-	}),
-}));
-
-export const usuarioRelations = relations(usuario, ({many}) => ({
-	credencials: many(credencial),
-	formadors: many(formador),
-	logs: many(log),
-	usuarioPerfils: many(usuarioPerfil),
-}));
-
 export const cursoCvRelations = relations(cursoCv, ({one, many}) => ({
 	curso: one(curso, {
 		fields: [cursoCv.idCurso],
@@ -129,6 +115,10 @@ export const cursoRelations = relations(curso, ({many}) => ({
 	modulos: many(modulo),
 }));
 
+export const departamentoRelations = relations(departamento, ({many}) => ({
+	disponibilidades: many(disponibilidade),
+}));
+
 export const formadorRelations = relations(formador, ({one, many}) => ({
 	disponibilidades: many(disponibilidade),
 	usuario: one(usuario, {
@@ -137,8 +127,11 @@ export const formadorRelations = relations(formador, ({one, many}) => ({
 	}),
 }));
 
-export const departamentoRelations = relations(departamento, ({many}) => ({
-	disponibilidades: many(disponibilidade),
+export const usuarioRelations = relations(usuario, ({many}) => ({
+	formadors: many(formador),
+	logs: many(log),
+	sessaos: many(sessao),
+	usuarioPerfils: many(usuarioPerfil),
 }));
 
 export const logRelations = relations(log, ({one}) => ({
@@ -148,17 +141,51 @@ export const logRelations = relations(log, ({one}) => ({
 	}),
 }));
 
-export const usuarioPerfilRelations = relations(usuarioPerfil, ({one}) => ({
+export const sessaoRelations = relations(sessao, ({one}) => ({
 	usuario: one(usuario, {
-		fields: [usuarioPerfil.idUsuario],
+		fields: [sessao.idUsuario],
 		references: [usuario.id]
 	}),
+}));
+
+export const usuarioPerfilRelations = relations(usuarioPerfil, ({one}) => ({
 	perfil: one(perfil, {
 		fields: [usuarioPerfil.idPerfil],
 		references: [perfil.id]
+	}),
+	usuario: one(usuario, {
+		fields: [usuarioPerfil.idUsuario],
+		references: [usuario.id]
 	}),
 }));
 
 export const perfilRelations = relations(perfil, ({many}) => ({
 	usuarioPerfils: many(usuarioPerfil),
+}));
+
+export const bilheteDeIdentidadeRelations = relations(bilheteDeIdentidade, ({one}) => ({
+	pessoa: one(pessoa, {
+		fields: [bilheteDeIdentidade.pessoaId],
+		references: [pessoa.id]
+	}),
+}));
+
+export const pessoaRelations = relations(pessoa, ({many}) => ({
+	bilheteDeIdentidades: many(bilheteDeIdentidade),
+	nuits: many(nuit),
+	passaportes: many(passaporte),
+}));
+
+export const nuitRelations = relations(nuit, ({one}) => ({
+	pessoa: one(pessoa, {
+		fields: [nuit.pessoaId],
+		references: [pessoa.id]
+	}),
+}));
+
+export const passaporteRelations = relations(passaporte, ({one}) => ({
+	pessoa: one(pessoa, {
+		fields: [passaporte.pessoaId],
+		references: [pessoa.id]
+	}),
 }));

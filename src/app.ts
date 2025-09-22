@@ -38,6 +38,6 @@ app.get("/user", verify, async (req, res) => {
 
 // check if user is in the database
 
-app.listen(PORT, () => console.log("Live in 3...2..1"))
+app.listen(PORT, () => console.log(`Live in 3...2..1\nRunning in port ${PORT}`))
 
 
